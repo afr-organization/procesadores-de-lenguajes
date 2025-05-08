@@ -1,0 +1,44 @@
+package calculadora;
+
+import java_cup.runtime.*;
+parser code {:
+public void syntax_error(Symbol symbol) {
+	if (symbol.sym == sym.TOK_ERROR)  
+	   return;
+	  
+	System.out.println("****Error sintáctico en [lin " + symbol.left + ", col " + symbol.right + "]");		
+}
+public void unrecovered_syntax_error(Symbol symbol) {
+}
+:}	
+
+
+/* Lista de terminales*/
+terminal TOK_MAS, TOK_MENOS, TOK_PRODUCTO, TOK_DIVISION;
+terminal TOK_PARI, TOK_PARD;
+terminal TOK_CONSTANTE;
+terminal TOK_ERROR;
+terminal MENOSU;
+
+
+/* Lista de no terminales*/
+non terminal exp, constante;
+
+
+/* Asociatividad y prioridad de los operadores */
+precedence left TOK_MAS, TOK_MENOS;
+precedence left TOK_DIVISION, TOK_PRODUCTO;
+precedence right MENOSU;
+
+
+/* Reglas de la gramática */
+exp ::= exp TOK_MAS exp {: System.out.println("suma");:}
+     | exp TOK_MENOS exp {:System.out.println("resta");:}
+     | exp TOK_PRODUCTO exp {:System.out.println("multiplicación");:}
+     | exp TOK_DIVISION exp {:System.out.println("división");:}
+     | TOK_MENOS exp {:System.out.println("menos unario");:} %prec MENOSU
+     | TOK_PARI exp TOK_PARD {:System.out.println("expresión entre paréntesis");:}
+     | constante {:System.out.println("expresión constante");:}
+     ;
+constante ::= TOK_CONSTANTE {:System.out.println("CONSTANTE");:}
+          ;

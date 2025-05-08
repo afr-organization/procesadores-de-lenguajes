@@ -2,4 +2,7 @@
 !*/
 !.gitignore
 !**/src/*/*.java
+!**/src/*/*.flex
+!**/src/*/*.cup
+!**/src/*/*.cal
 /.metadata/
